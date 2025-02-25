@@ -1,5 +1,6 @@
 import { useState } from "react";
 import QUESTIONS from "../QuestionsData/questions";
+import Summary from "../Summary/Summary";
 
 export default function Quiz() {
   const [userAnswer, setUserAnswer] = useState<string[]>([]);
@@ -9,13 +10,22 @@ export default function Quiz() {
     setUserAnswer((prevAnswer) => [...prevAnswer, answerSelected]);
   };
 
+  const isQuizCompleted = activeAnswerIndex === QUESTIONS.length;
+
+  if (isQuizCompleted) {
+    return <Summary />;
+  }
+
+  const shuffledAnswers = [...QUESTIONS[activeAnswerIndex].answers];
+  shuffledAnswers.sort(() => Math.random() - 0.5);
+
   return (
     <div className="max-w-[90%] md:max-w-[50rem] m-auto p-8 bg-[linear-gradient(180deg,_#3e2a60_0%,_#321061_100%)] rounded-lg shadow-[1px_1px_8px_4px_rgba(12,_5,_32,_0.6)] text-center">
       <h2 className="text-lg md:text-2xl mt-6 mb-7 md:mb-10 text-[#c1b2dd] font-RobotoCondensed">
         {QUESTIONS[activeAnswerIndex].text}
       </h2>
       <ul className="list-none flex flex-col items-center gap-2">
-        {QUESTIONS[activeAnswerIndex].answers.map((answer) => (
+        {shuffledAnswers.map((answer) => (
           <li className="w-[90%] mx-auto" key={answer}>
             <button
               onClick={() => handleSelected(answer)}
