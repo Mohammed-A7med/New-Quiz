@@ -1,4 +1,4 @@
-import { QuestionsInterface } from "../Interfaces/Questions/Questions";
+import { QuestionsInterface } from "../Interfaces/Questions";
 
 const questions: QuestionsInterface = [
   {
