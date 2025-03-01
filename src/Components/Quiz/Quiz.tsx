@@ -9,7 +9,11 @@ export default function Quiz() {
 
   const handleSelectAnswer = useCallback((answerSelected: string | null) => {
     setUserAnswer((prevAnswer) => [...prevAnswer, answerSelected]);
-  }, [userAnswer]);
+  }, []);
+
+  const handleSkipAnswer = useCallback(() => {
+    handleSelectAnswer(null);
+  }, [handleSelectAnswer]);
 
   const isQuizCompleted = activeAnswerIndex === QUESTIONS.length;
 
@@ -23,8 +27,9 @@ export default function Quiz() {
   return (
     <div className="max-w-[90%] md:max-w-[50rem] m-auto p-8 bg-[linear-gradient(180deg,_#3e2a60_0%,_#321061_100%)] rounded-lg shadow-[1px_1px_8px_4px_rgba(12,_5,_32,_0.6)] text-center">
       <QuestionTimer
+        key={activeAnswerIndex}
         timeout={10000}
-        onTimeout={() => handleSelectAnswer(null)}
+        onTimeout={handleSkipAnswer}
       />
       <h2 className="text-lg md:text-2xl mt-6 mb-7 md:mb-10 text-[#c1b2dd] font-RobotoCondensed">
         {QUESTIONS[activeAnswerIndex].text}
